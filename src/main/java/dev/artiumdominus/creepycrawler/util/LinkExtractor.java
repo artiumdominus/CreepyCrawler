@@ -25,10 +25,10 @@ public class LinkExtractor {
 
     List<URI> links = new LinkedList<URI>();
 
-    Matcher matcher = pattern.matcher(HTML);
+    var matcher = pattern.matcher(HTML);
 
     while (matcher.find()) {
-      String href = matcher.group(1);
+      var href = matcher.group(1);
 
       // absolute
       if ((href.startsWith("http://") || href.startsWith("https://"))) {

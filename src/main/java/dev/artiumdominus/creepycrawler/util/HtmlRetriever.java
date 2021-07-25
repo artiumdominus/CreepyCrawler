@@ -8,29 +8,29 @@ import java.net.http.HttpResponse;
 
 public class HtmlRetriever {
 
-    private final HttpClient client;
+  private final HttpClient client;
 
-    public HtmlRetriever() {
-        this.client = HttpClient.newHttpClient();
-    }
+  public HtmlRetriever() {
+    this.client = HttpClient.newHttpClient();
+  }
 
-    public String retrieve(URI uri) {
-        try {
-            return tryToRetrieve(uri);
-        } catch (IOException | InterruptedException e) {
-            throw new HtmlRetrieverException(e);
-        }
+  public String retrieve(URI uri) {
+    try {
+      return tryToRetrieve(uri);
+    } catch (IOException | InterruptedException e) {
+      throw new HtmlRetrieverException(e);
     }
+  }
 
-    private String tryToRetrieve(URI uri) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder(uri).build();
-        HttpResponse<String> response = client.send(request, HttpResponse.BodyHandlers.ofString());
-        return response.body();
-    }
+  private String tryToRetrieve(URI uri) throws IOException, InterruptedException {
+    var request = HttpRequest.newBuilder(uri).build();
+    var response = client.send(request, HttpResponse.BodyHandlers.ofString());
+    return response.body();
+  }
 
-    public static class HtmlRetrieverException extends RuntimeException {
-        public HtmlRetrieverException(Throwable cause) {
-            super(cause);
-        }
+  public static class HtmlRetrieverException extends RuntimeException {
+    public HtmlRetrieverException(Throwable cause) {
+      super(cause);
     }
+  }
 }

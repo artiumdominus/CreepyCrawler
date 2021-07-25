@@ -18,6 +18,7 @@ import java.util.regex.*;
 import dev.artiumdominus.creepycrawler.util.HtmlRetriever;
 import dev.artiumdominus.creepycrawler.util.HtmlRetriever.HtmlRetrieverException;
 import dev.artiumdominus.creepycrawler.util.LinkExtractor;
+import dev.artiumdominus.creepycrawler.util.BodySearcher;
 
 public class CrawlerWorker implements Runnable {
 
@@ -31,7 +32,7 @@ public class CrawlerWorker implements Runnable {
   private Set<URI> foundURIs;
 
   public CrawlerWorker(String keyword, AnalysisModel analysis) {
-    this.keyword = keyword;
+    this.keyword = keyword.toLowerCase();
     this.analysis = analysis;
     this.foundMatches = 0;
     this.rootURI = Options.BASE_URL;
@@ -43,7 +44,7 @@ public class CrawlerWorker implements Runnable {
   @Override
   public void run() {
     var retriever = new HtmlRetriever();
-    var HTML = "";
+    var html = "";
 
     do {
       var uri = foundURIs.iterator().next();
@@ -51,18 +52,18 @@ public class CrawlerWorker implements Runnable {
       LOGGER.info("[" + this.analysis.id + "]\n\t> crawl! : " + uri.toString());
 
       try {
-        HTML = retriever.retrieve(uri);
+        html = retriever.retrieve(uri);
       } catch (HtmlRetrieverException e) {
-        HTML = "";
+        html = "";
         LOGGER.error(e.getMessage());
       }
 
-      if (HTML.toLowerCase().contains(this.keyword.toLowerCase())) {
+      if (BodySearcher.find(html, keyword)) {
         this.analysis.urls.add(uri.toString());
         this.foundMatches++;
       }
 
-      var links = LinkExtractor.extract(HTML, rootURI, uri);
+      var links = LinkExtractor.extract(html, rootURI, uri);
 
       for (URI link : links)
         if (!(exploredURIs.contains(link) || foundURIs.contains(link)))

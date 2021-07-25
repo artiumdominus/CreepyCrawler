@@ -3,6 +3,7 @@ package dev.artiumdominus.creepycrawler.repositories;
 import java.util.Map;
 import java.util.HashMap;
 import dev.artiumdominus.creepycrawler.models.AnalysisModel;
+import java.util.Set;
 
 public class AnalysisRepository {
 
@@ -15,6 +16,10 @@ public class AnalysisRepository {
 
     repo.put(key, reserveAnalisys);
     return true;
+  }
+
+  public static Set<String> list() {
+    return repo.keySet();
   }
 
   public static void put(String key, AnalysisModel analysis) {

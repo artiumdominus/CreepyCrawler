@@ -11,31 +11,33 @@ import java.net.URI;
 
 public class Main {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
+  private static final Logger LOGGER = LoggerFactory.getLogger(Main.class);
 
-    public static void main(String[] args) {
+  public static void main(String[] args) {
 
-        config();
+    config();
 
-        get("/crawl/:id", CrawlerController.get);
-        post("/crawl", CrawlerController.post);
-                
-        LOGGER.info("HTTP API initialized");
+    get("/crawls", CrawlerController.list);
+    get("/crawls/:id", CrawlerController.get);
+    post("/crawls", CrawlerController.post);
+    delete("/crawls/:id", CrawlerController.delete);
+            
+    LOGGER.info("HTTP API initialized");
+  }
+
+  private static void config() {
+    try {
+      Options.BASE_URL = Config.baseUrl();
+    } catch (IllegalArgumentException e) {
+      LOGGER.warn(e.getMessage());
+      System.exit(-1);
     }
 
-    private static void config() {
-        try {
-            Options.BASE_URL = Config.baseUrl();
-        } catch (IllegalArgumentException e) {
-            LOGGER.warn(e.getMessage());
-            System.exit(-1);
-        }
-
-        try {
-            Options.MAX_RESULTS = Config.maxResults();
-        } catch (IllegalArgumentException e) {
-            LOGGER.warn(e.getMessage());
-            System.exit(-1);
-        }
+    try {
+      Options.MAX_RESULTS = Config.maxResults();
+    } catch (IllegalArgumentException e) {
+      LOGGER.warn(e.getMessage());
+      System.exit(-1);
     }
+  }
 }
