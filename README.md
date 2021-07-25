@@ -1,6 +1,6 @@
 # Creepy Crawler
 
-Creepy Crawler is a server made with Spark Framework (https://sparkjava.com) that run web crawlers in search of specific keywords.
+Creepy Crawler is a service made with Spark Framework (https://sparkjava.com) that run web crawlers in search of specific keywords.
 
 ## Before run -> Configuration
 
