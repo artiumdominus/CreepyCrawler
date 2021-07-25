@@ -31,7 +31,7 @@ public class CrawlerController {
         || crawl.keyword.length() > 32)
     {
       res.status(400);
-      return gson.toJson(new ErrorResponseModel(404, "field 'keyword' is required (from 4 up to 32 chars)"));
+      return gson.toJson(new ErrorResponseModel(400, "field 'keyword' is required (from 4 up to 32 chars)"));
     }
 
     var idGenerator = new IdGenerator();
