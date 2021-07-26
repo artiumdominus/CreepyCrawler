@@ -21,7 +21,7 @@ Attention: BASE_URL must be setted or the server will not start.
 
 ## Running
 
-If you want to run in bare-metal, you need maven installed: https://maven.apache.org
+If you want to run locally, you need maven installed: https://maven.apache.org
 
 Just run the command: `mvn clean verify exec:java`
 
